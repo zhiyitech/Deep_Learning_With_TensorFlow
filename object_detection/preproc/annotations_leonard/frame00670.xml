@@ -1,0 +1,26 @@
+<annotation verified="yes">
+	<folder>16</folder>
+	<filename>frame00670.jpg</filename>
+	<path>D:\nba\16\frame00670.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1280</width>
+		<height>720</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>leonard</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>739</xmin>
+			<ymin>243</ymin>
+			<xmax>766</xmax>
+			<ymax>353</ymax>
+		</bndbox>
+	</object>
+</annotation>
