@@ -1,5 +1,3 @@
-rm -rf /data/home/goosegu/video/models/research/models_nba/export
-mkdir /data/home/goosegu/video/models/research/models_nba/export
 
 INPUT_TYPE=image_tensor
 PIPELINE_CONFIG_PATH=/data/home/goosegu/video/models/research/data/nba/faster_rcnn_resnet101_nba.config
