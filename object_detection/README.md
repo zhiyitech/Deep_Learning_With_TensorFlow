@@ -6,6 +6,7 @@ sh run.sh
 cd -   
 
 第二步，使用labelImg,对视频图片进行标注（圈出视频中的leonard）  
+我在annotations_leonard目录里面提供了部分标注结果
 
 第三步，对标注生成的xml进行格式转换，配合视频源文件，生成tfrecord格式的训练输入  
 cd preproc  
