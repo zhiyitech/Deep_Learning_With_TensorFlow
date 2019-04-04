@@ -10,14 +10,17 @@ def extractImages(pathIn, pathOut):
     success = True
     while success:
         print ('Read a new frame: ', success)
-        if count % 5 == 0: #save jpg every 5 frames
-            cv2.imwrite( pathOut + "/frame%05d.jpg" % count, image)     # save frame as JPEG file
+        #视频的每5帧，存一张jpg图片
+        if count % 5 == 0: 
+            cv2.imwrite( pathOut + "/frame%05d.jpg" % count, image)     
         count = count + 1
         success,image = vidcap.read()
 
 if __name__=="__main__":
     a = argparse.ArgumentParser()
+    #输入视频地址
     a.add_argument("--input", help="path to video")
+    #输出图片目录
     a.add_argument("--output", help="path to images")
     args = a.parse_args()
     print(args)
