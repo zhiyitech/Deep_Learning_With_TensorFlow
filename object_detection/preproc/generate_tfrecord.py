@@ -87,7 +87,7 @@ def create_tf_example(group, path):
 
 def main(_):
     writer = tf.python_io.TFRecordWriter(FLAGS.output_path)
-    path = os.path.join(os.getcwd(), '/data/home/goosegu/video/preprocess/videoclip/16')
+    path = os.path.join(os.getcwd(), '../videoclip/res')
     examples = pd.read_csv(FLAGS.csv_input)
     grouped = split(examples, 'filename')
     for group in grouped:
