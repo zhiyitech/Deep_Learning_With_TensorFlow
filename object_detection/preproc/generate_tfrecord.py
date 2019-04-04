@@ -28,12 +28,11 @@ FLAGS = flags.FLAGS
 
 # TO-DO replace this with label map
 def class_text_to_int(row_label):
-    if row_label == 'butler':
+#这里定义我们的目标类别，假设Leonard被定义为2号类别
+    if row_label == 'towns':
         return 1
     elif row_label == 'leonard':
         return 2
-    elif row_label == 'towns':
-        return 3
     else:
         None
 
@@ -87,11 +86,15 @@ def create_tf_example(group, path):
 
 def main(_):
     writer = tf.python_io.TFRecordWriter(FLAGS.output_path)
+    # 第一步videoclip输出的目录，存有视频帧图片列表的文件夹
     path = os.path.join(os.getcwd(), '../videoclip/res')
+    # leonard的标注数据csv文件
     examples = pd.read_csv(FLAGS.csv_input)
     grouped = split(examples, 'filename')
     for group in grouped:
+        #创建tfexample样本数据
         tf_example = create_tf_example(group, path)
+        #写入tfrecord文件
         writer.write(tf_example.SerializeToString())
 
     writer.close()
