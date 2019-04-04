@@ -1,3 +1,5 @@
+以NBA猛龙和森林狼的一场比赛为例，对比赛过程中的球员leonard进行目标检测和跟踪
+
 第一步，从视频.mp4文件按照固定的帧差生成图片列表*.jpg  
 cd videoclip  
 sh run.sh  
