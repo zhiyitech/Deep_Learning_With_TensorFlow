@@ -1,6 +1,7 @@
 import sys
 import argparse
 import cv2
+#使用opencv2的接口，帮助我们处理视频
 print(cv2.__version__)
 
 def extractImages(pathIn, pathOut):
