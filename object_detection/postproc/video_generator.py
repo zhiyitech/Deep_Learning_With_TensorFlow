@@ -13,11 +13,13 @@ sys.path.append("..")
 
 from object_detection.utils import label_map_util, visualization_utils as vis_util  # todo: dependency to custom_model_object_detection official model
 
-
+# frozen inference输出的文件目录
 MODEL_NAME = '/data/home/goosegu/video/models/research/models_nba/export'  # todo: use the folder with the frozen inference graph
+# frozen inference输出的文件之一
 PATH_TO_CKPT = MODEL_NAME + '/frozen_inference_graph.pb'
+# nba_label_map.pbtxt配置的目录，用来给出目标名称
 PATH_TO_LABELS = os.path.join('/data/home/goosegu/video/models/research/data/nba', 'nba_label_map.pbtxt') # todo: use the label map file
-
+# 类别数量，与模型训练config配置里保持一致，这里只有一个类-----leonard
 NUM_CLASSES = 1 # todo change to number of classes
 IMAGE_SIZE = (12, 8) # todo change to image size selected
 
@@ -27,6 +29,7 @@ categories = label_map_util.convert_label_map_to_categories(label_map, max_num_c
                                                             use_display_name=True)
 category_index = label_map_util.create_category_index(categories)
 
+# tf提供的目标检测接口
 def detect_objects(image_np, sess, detection_graph):
     # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
     image_np_expanded = np.expand_dims(image_np, axis=0)
@@ -41,12 +44,12 @@ def detect_objects(image_np, sess, detection_graph):
     classes = detection_graph.get_tensor_by_name('detection_classes:0')
     num_detections = detection_graph.get_tensor_by_name('num_detections:0')
 
-    # Actual detection.
+    # 实际的检测运行步骤
     (boxes, scores, classes, num_detections) = sess.run(
         [boxes, scores, classes, num_detections],
         feed_dict={image_tensor: image_np_expanded})
 
-    #Visualization of the results of a detection.
+    # 使检测结果可视化，对视频帧画检测框
     vis_util.visualize_boxes_and_labels_on_image_array(
         image_np,
         np.squeeze(boxes),
@@ -58,12 +61,13 @@ def detect_objects(image_np, sess, detection_graph):
 
     return image_np
 
+# 读取图片
 def load_image_into_numpy_array(image):
   (im_width, im_height) = image.size
   return np.array(image.getdata()).reshape(
       (im_height, im_width, 3)).astype(np.uint8)
 
-
+# 读取模型
 detection_graph = tf.Graph()
 with detection_graph.as_default():
     od_graph_def = tf.GraphDef()
@@ -73,17 +77,22 @@ with detection_graph.as_default():
         tf.import_graph_def(od_graph_def, name='')
 
 
-# Import everything needed to edit/save/watch video clips
+# 使用moviepy编辑视频片段
 from moviepy.editor import VideoFileClip
 def process_image(image):
     #return image
     with detection_graph.as_default():
         with tf.Session(graph=detection_graph) as sess:
+            #针对视频帧，进行目标检测
             image_process = detect_objects(image, sess, detection_graph)
+            #返回检测结果帧图像
             return image_process
-
-white_output = 'OUTPUT.mp4' # todo: output video name
-clip1 = VideoFileClip("../data/leonard.mp4") # todo: input video name
-#clip1 = VideoFileClip("16_15.mp4")
-white_clip = clip1.fl_image(process_image).subclip(t_start=(00,00.00),t_end=(00,00.30)) #process_image 18,00.00
+          
+# 输出视频名称，这个视频会包含leonard检测的结果
+white_output = 'OUTPUT.mp4' 
+# 待检测的视频，这里使用了生成训练数据的视频。
+clip1 = VideoFileClip("../data/leonard.mp4") 
+# 按照时间起止点（t_start，t_end）截取希望处理视频的片段，并调用process_image按帧进行目标检测
+white_clip = clip1.fl_image(process_image).subclip(t_start=(00,00.00),t_end=(00,00.30)) 
+# 写入检测结果
 white_clip.write_videofile(white_output, audio=False)
