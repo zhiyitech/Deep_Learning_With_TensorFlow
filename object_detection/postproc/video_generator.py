@@ -82,8 +82,8 @@ def process_image(image):
             image_process = detect_objects(image, sess, detection_graph)
             return image_process
 
-white_output = 'OUTPUTVIDEO23.mp4' # todo: output video name
-clip1 = VideoFileClip("/data/home/goosegu/video/data/wolves/nba.mkv") # todo: input video name
+white_output = 'OUTPUT.mp4' # todo: output video name
+clip1 = VideoFileClip("../data/leonard.mp4") # todo: input video name
 #clip1 = VideoFileClip("16_15.mp4")
-white_clip = clip1.fl_image(process_image).subclip(t_start=(21,43.00),t_end=(23,58.00)) #process_image 18,00.00
+white_clip = clip1.fl_image(process_image).subclip(t_start=(00,00.00),t_end=(00,00.30)) #process_image 18,00.00
 white_clip.write_videofile(white_output, audio=False)

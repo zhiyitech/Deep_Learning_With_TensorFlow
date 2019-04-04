@@ -10,7 +10,7 @@ def extractImages(pathIn, pathOut):
     success = True
     while success:
         print ('Read a new frame: ', success)
-        if count % 5 == 0:
+        if count % 5 == 0: #save jpg every 5 frames
             cv2.imwrite( pathOut + "/frame%05d.jpg" % count, image)     # save frame as JPEG file
         count = count + 1
         success,image = vidcap.read()
