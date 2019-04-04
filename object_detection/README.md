@@ -6,6 +6,7 @@ sh run.sh
 cd -   
 
 第二步，使用labelImg,对视频图片进行标注（圈出视频中的leonard）  
+使用labelImg在https://github.com/tzutalin/labelImg
 我在annotations_leonard目录里面提供了部分标注结果
 
 第三步，对标注生成的xml进行格式转换，配合视频源文件，生成tfrecord格式的训练输入  
@@ -13,7 +14,9 @@ cd preproc
 sh run.sh  
 cd -  
 
-第四步，将脚本拷贝至tensorflow的research目录下面，修改对应配置，执行训练。训练结束后执行export脚本输出模型文件。  
+第四步，将脚本拷贝至tensorflow的research目录下面，修改对应配置，执行训练。训练结束后执行export脚本输出模型文件。
+这里使用faster rcnn模型，模型可以通过修改配置替换。
+参考tensorflow目录下的其他配置https://github.com/tensorflow/models/tree/master/research/object_detection/samples/configs
 #Note that the scripts for train process should be run under tensorflow/models/research directory  
 cd trainproc  
 sh run.sh  
